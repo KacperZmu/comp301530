@@ -1,5 +1,12 @@
 C:\Users\Public\OpenGL\src\glad.c;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\glad.obj
 H:\COMP3015\comp3015\Comp3015CW1\Project\helper\glslprogram.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\glslprogram.obj
 H:\COMP3015\comp3015\Comp3015CW1\Project\helper\glutils.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\glutils.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\objmesh.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\objmesh.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\plane.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\plane.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\stb\stb_image.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\stb_image.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\teapot.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\teapot.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\texture.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\texture.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\torus.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\torus.obj
+H:\COMP3015\comp3015\Comp3015CW1\Project\helper\trianglemesh.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\trianglemesh.obj
 H:\COMP3015\comp3015\Comp3015CW1\Project\main.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\main.obj
 H:\COMP3015\comp3015\Comp3015CW1\Project\scenebasic_uniform.cpp;H:\COMP3015\comp3015\Comp3015CW1\Project\x64\Debug\scenebasic_uniform.obj
