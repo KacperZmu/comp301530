@@ -27,6 +27,8 @@ float MinDist;
 vec3 Color;
 }Fog;
 
+const int levels=9;
+const float scaleFactor=1.0/levels;
 
 vec3 blinnPhong (vec3 position, vec3 n){
     vec3 diffuse=vec3(0),spec= vec3(0);
@@ -34,35 +36,21 @@ vec3 blinnPhong (vec3 position, vec3 n){
     vec3 ambient = Light.La*texColor;
     vec3 s = normalize(Light.Position.xyz -position);
     float sDotN = max(dot(s, n), 0.0);
-    diffuse = Material.Kd*sDotN;
+    diffuse = texColor*floor(sDotN*levels)*scaleFactor;
         if (sDotN>0.0){
             vec3 v=normalize(-position.xyz);
             vec3 h=normalize(v+s);
             spec=Material.Ks*pow(max(dot(h,n),0.0), Material.Shininess); 
         }
-    return  ambient+(diffuse+spec)*Light.L;
+    return  ambient+(diffuse+spec)*Light.L*-1.5;
 }
 
 
 void main() {
-    //float dist=abs(Position.z);
-    //float fogFactor =(Fog.MaxDist-dist)/(Fog.MaxDist-Fog.MinDist);
-    //fogFactor=clamp(fogFactor,0.0,1.0);
-    //vec3 shaderColor=blinnPhong(Position,normalize(Normal));
-    //vec3 color=mix(Fog.Color,shaderColor,fogFactor);
-    //FragColor = vec4(color,1.0);
-    vec4 alphaMap=texture(AlphaTex, TexCoord);
-    if(alphaMap.a<0.15f){
-    discard;
-    }
-    else{
-        if(gl_FrontFacing){
-           FragColor = vec4(blinnPhong(Position,normalize(Normal)),1.0);
-           }
-           else{
-                FragColor = vec4(blinnPhong(Position,normalize(-Normal)),1.0);
-                }
-        }
-
+    float dist=abs(Position.z);
+    float fogFactor =(Fog.MaxDist-dist)/(Fog.MaxDist-Fog.MinDist);
+    vec3 shaderColor=blinnPhong(Position,normalize(Normal));
+    vec3 color=mix(Fog.Color,shaderColor,fogFactor);
+    FragColor = vec4(color,1.0)+vec4(blinnPhong(Position,normalize(-Normal)),1.0);
 
 }

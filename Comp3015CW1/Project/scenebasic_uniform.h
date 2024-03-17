@@ -24,18 +24,22 @@ private:
     Plane plane;
  
     std::unique_ptr<ObjMesh> mesh;
+    std::unique_ptr<ObjMesh> mesh2;
     float tPrev;
     float angle;
     GLSLProgram prog;
     void setMatrices();
     void compile();
+    GLuint Rerere;
+    GLuint Hehehe;
+    GLuint Face;
     
 
 public:
     SceneBasic_Uniform();
 
     void initScene();
-    void update( float t );
+    void update(float t, glm::vec3 Orientation, glm::vec3 Position, glm::vec3 Up);
     void render();
     void resize(int, int);
 };

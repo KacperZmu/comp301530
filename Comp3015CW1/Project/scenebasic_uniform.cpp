@@ -25,7 +25,8 @@ using glm::mat4;
 SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f, 10.0f, 100, 100){
 
 	mesh = ObjMesh::load("media/Ring3016.obj", true);
-	//plane(50.0f, 50.0f, 1, 1),
+	mesh2 = ObjMesh::load("media/Faces.obj", true);
+	plane;
 	
 
 		
@@ -33,17 +34,24 @@ SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f, 10.0f, 100, 100){
 
 void SceneBasic_Uniform::initScene()
 {
+	glDebugMessageControl(
+		GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_FALSE);
+
+	glDebugMessageControl(
+		GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_ERROR, GL_DONT_CARE, 0, NULL, GL_TRUE);
     compile();
 	glEnable(GL_DEPTH_TEST);
 	model = mat4(1.0f);
 	view = glm::lookAt(vec3(1.0f, 1.25f, 1.25f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-	//model = glm::rotate(model, glm::radians(-35.0f), vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::rotate(model, glm::radians(15.0f), vec3(0.0f, 1.0f, 0.0f));
 	projection = mat4(1.0f);
 	angle = 0.0f;
-	GLuint brick = Texture::loadTexture("media/texture/GoldB.png");
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, brick);
+	Rerere = Texture::loadTexture("media/texture/GoldB.png");
+	glActiveTexture(GL_TEXTURE0);
+	Hehehe = Texture::loadTexture("media/texture/moss.png");
+	glActiveTexture(GL_TEXTURE0);
+	Face = Texture::loadTexture("media/texture/Face.png");
+
 	
 	prog.setUniform("Light.L", vec3(0.9f)); 
 	prog.setUniform("Light.La", vec3(0.5f));
@@ -69,13 +77,15 @@ void SceneBasic_Uniform::compile()
 	}
 }
 
-void SceneBasic_Uniform::update( float t )
-{
+void SceneBasic_Uniform::update(float t, glm::vec3 Orientation, glm::vec3 Position, glm::vec3 Up){
+
 	float deltaT = t - tPrev;
 	if (tPrev == 0.0f) deltaT = 0.0f;
 	tPrev = t;
 	angle += 0.1f * deltaT;
 	if (angle > glm::two_pi<float>())angle -= glm::two_pi<float>();
+	prog.setUniform("ViewMatrix", view);
+	view = glm::lookAt(Position, Position + Orientation, Up);
 }
 
 void SceneBasic_Uniform::render()
@@ -83,8 +93,6 @@ void SceneBasic_Uniform::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	vec4 lightPos = vec4(10.0f*cos(angle), 10.0f, 10.0f*sin(angle), 1.0f);
-	vec3 camPosition = vec3(6.0f * cos(angle), 1.0f, 0.6f * sin(angle));
-	view = glm::lookAt(camPosition, vec3(0.0f, 0.2f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	prog.setUniform("Light.Position", vec4(view*lightPos));
 
 
@@ -94,27 +102,28 @@ void SceneBasic_Uniform::render()
 	prog.setUniform("Material.Ka", vec3(0.2f*0.3f, 0.55f*0.3f,0.9f*0.3f));
 	prog.setUniform("Material.Shininess", 100.0f);
 
-
-	float dist = 0.0f;
-	/*for (int i = 0; i < 5; i++) {
-		model = mat4(1.0f);
-		model = glm::translate(model, vec3(dist*0.6f-1.0f, 0.0f, -dist));
-		model = glm::rotate(model, glm::radians(-90.0f), vec3(1.0f, 0.0f, 0.0f));
-		setMatrices();
-		teapot.render();
-		dist += 7.0f;
-	}*/
-	
-
 	prog.setUniform("Material.Kd", vec3(0.7f, 0.7f, 0.7f));
 	prog.setUniform("Material.Ks", vec3(0.0f, 0.0f, 0.0f));
 	prog.setUniform("Material.Ka", vec3(0.2f, 0.2f , 0.2f));
 	prog.setUniform("Material.Shininess", 180.0f);
 
 	model = mat4(1.0f);
-	
+	glBindTexture(GL_TEXTURE_2D, Rerere);
 	setMatrices();
 	mesh->render();
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	model = glm::translate(glm::mat4(1.0), glm::vec3(0.0f, 2.0f, 0.0f));
+	glBindTexture(GL_TEXTURE_2D, Face);
+	setMatrices();
+	mesh2->render();
+
+	model = glm::translate(glm::mat4(1.0), glm::vec3(0.0f, -5.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(35.0f), vec3(9.0f * cos(angle), 1.0f, 10.0f));
+	model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+	glBindTexture(GL_TEXTURE_2D, Hehehe);
+	setMatrices();
+
+	plane.render();
 	
 	
 }

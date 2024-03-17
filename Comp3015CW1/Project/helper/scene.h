@@ -28,7 +28,7 @@ public:
       This is called prior to every frame.  Use this
       to update your animation.
       */
-    virtual void update( float t ) = 0;
+    virtual void update(float t, glm::vec3 Orientation, glm::vec3 Position, glm::vec3 Up) = 0;
 
     /**
       Draw your scene.
