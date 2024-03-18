@@ -6,7 +6,7 @@
 
 ## How to run executable:
 ## make sure to have the independencies placed in C:\Users\Public\OpenGL
-![image]()
+![image](https://github.com/KacperZmu/comp301530/blob/main/libraries.png)
 
 ## when the project is ran, you will see 6 faces, pointed towards a spinning ring, while a light travels around it. the scene is covered by a heavy fog.
 ## you can move around using WASD and use the shift key to speed up. use the mouse to look around. you must click and hold on the window to move the camera.
