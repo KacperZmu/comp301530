@@ -16,6 +16,8 @@
 
 ### I created all the models and textures seen apart from the plane and moss texture used, and the skybox - which doesnt work on the current shader and requires its own.
 
+### EXE held within x64/Debug
+
 ## The dependencies used are
 ### GLAD
 ### GLFW
