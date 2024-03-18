@@ -12,6 +12,8 @@
 #include "helper/objmesh.h"
 #include "helper/teapot.h"
 #include "helper/texture.h"
+#include "helper/cube.h"
+#include "helper/skybox.h"
 
 
 
@@ -22,6 +24,7 @@ class SceneBasic_Uniform : public Scene
 private:
    
     Plane plane;
+    SkyBox sky;
  
     std::unique_ptr<ObjMesh> mesh;
     std::unique_ptr<ObjMesh> mesh2;
@@ -30,8 +33,8 @@ private:
     GLSLProgram prog;
     void setMatrices();
     void compile();
-    GLuint Rerere;
-    GLuint Hehehe;
+    GLuint ring;
+    GLuint ground;
     GLuint Face;
     
 

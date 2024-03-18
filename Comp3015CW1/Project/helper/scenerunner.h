@@ -164,15 +164,6 @@ private:
 				scene.animate(!scene.animating());
 			}
 
-			/* camera movement using keyboard input
-			 W - Forward
-			 A - Left
-			 S - Backwards
-			 D - Right
-			 Up Arrow - Up
-			 Down Arrow - Down
-			 Left Shift - Increase Speed
-			 */
 			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 			{
 				position += camSpeed * deltaT * orientation;
@@ -208,23 +199,23 @@ private:
 			// Mouse control 
 			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 			{
-				// hides mouse when holding down left click
+				
 				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-				// Reset mouse position when clicking
+				
 				if (firstClick)
 				{
 					glfwSetCursorPos(window, (WIN_WIDTH / 2), (WIN_HEIGHT / 2));
 					firstClick = false;
 				}
 
-				// Mouse coordinates
+				
 				double mouseX;
 				double mouseY;
 
 				// Get mouse position
 				glfwGetCursorPos(window, &mouseX, &mouseY);
 
-				// Calculate rotation based on Mouse sensitivity
+				
 				float rotX = camSensitivity * (float(mouseY - (WIN_HEIGHT / 2)) / WIN_HEIGHT);
 				float rotY = camSensitivity * (float(mouseX - (WIN_WIDTH / 2)) / WIN_WIDTH);
 
@@ -239,16 +230,16 @@ private:
 					orientation = newOrientation;
 				}
 
-				// Update the camera's position based on the new orientation
+				
 				updateMatrix(45.0f, 0.1f, 100.0f);
 
-				// reset mouse position 
+				
 				glfwSetCursorPos(window, (WIN_WIDTH / 2), (WIN_HEIGHT / 2));
 			}
 
 			else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 			{
-				// Show mouse after releasing left click
+				
 				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 				firstClick = true;
 			}

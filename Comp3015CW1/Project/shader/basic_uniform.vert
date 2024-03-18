@@ -14,6 +14,7 @@ uniform struct LightInfo{
 out vec3 Position;
 out vec3 Normal;
 out vec2 TexCoord;
+out vec3 Vec;
 
 uniform mat4 ModelViewMatrix;
 uniform mat3 NormalMatrix;
@@ -23,6 +24,7 @@ uniform mat4 MVP;
 
 void main()
 {
+    Vec=VertexPosition;
     TexCoord=VertexTexCoord;
     Normal = normalize(NormalMatrix*VertexNormal);
     Position = (ModelViewMatrix*vec4(VertexPosition,1.0)).xyz;

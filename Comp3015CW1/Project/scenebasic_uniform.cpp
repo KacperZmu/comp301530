@@ -22,7 +22,7 @@ using glm::mat3;
 using glm::mat4;
 
 
-SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f, 10.0f, 100, 100){
+SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f, 10.0f, 100, 100),sky(100.0f){
 
 	mesh = ObjMesh::load("media/Ring3016.obj", true);
 	mesh2 = ObjMesh::load("media/Faces.obj", true);
@@ -45,19 +45,23 @@ void SceneBasic_Uniform::initScene()
 	view = glm::lookAt(vec3(1.0f, 1.25f, 1.25f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	projection = mat4(1.0f);
 	angle = 0.0f;
+
 	glActiveTexture(GL_TEXTURE0);
-	Rerere = Texture::loadTexture("media/texture/GoldB.png");
+	GLuint cubeTex = Texture::loadHdrCubeMap("media/texture/cube/pisa-hdr/pisa");
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTex);
 	glActiveTexture(GL_TEXTURE0);
-	Hehehe = Texture::loadTexture("media/texture/moss.png");
+	ring = Texture::loadTexture("media/texture/GoldB.png");
+	glActiveTexture(GL_TEXTURE0);
+	ground = Texture::loadTexture("media/texture/moss.png");
 	glActiveTexture(GL_TEXTURE0);
 	Face = Texture::loadTexture("media/texture/Face.png");
 
 	
 	prog.setUniform("Light.L", vec3(0.9f)); 
 	prog.setUniform("Light.La", vec3(0.5f));
-	prog.setUniform("Fog.MaxDist", 20.0f );
-	prog.setUniform("Fog.MinDist", 1.0f);
-	prog.setUniform("Fog.Color", vec3(0.5f,0.5f,0.5f));
+	prog.setUniform("Fog.MaxDist", 40.0f );
+	prog.setUniform("Fog.MinDist", 7.0f);
+	prog.setUniform("Fog.Color", vec3(0.6f,0.6f,0.6f));
 	
 
 	
@@ -80,10 +84,13 @@ void SceneBasic_Uniform::compile()
 void SceneBasic_Uniform::update(float t, glm::vec3 Orientation, glm::vec3 Position, glm::vec3 Up){
 
 	float deltaT = t - tPrev;
+
 	if (tPrev == 0.0f) deltaT = 0.0f;
 	tPrev = t;
 	angle += 0.1f * deltaT;
+
 	if (angle > glm::two_pi<float>())angle -= glm::two_pi<float>();
+
 	prog.setUniform("ViewMatrix", view);
 	view = glm::lookAt(Position, Position + Orientation, Up);
 }
@@ -91,11 +98,8 @@ void SceneBasic_Uniform::update(float t, glm::vec3 Orientation, glm::vec3 Positi
 void SceneBasic_Uniform::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	vec4 lightPos = vec4(10.0f*cos(angle), 10.0f, 10.0f*sin(angle), 1.0f);
 	prog.setUniform("Light.Position", vec4(view*lightPos));
-
-
 
 	prog.setUniform("Material.Kd", vec3(0.2f, 0.55f, 0.9f));
 	prog.setUniform("Material.Ks", vec3(0.95f, 0.95f, 0.95f));
@@ -106,9 +110,14 @@ void SceneBasic_Uniform::render()
 	prog.setUniform("Material.Ks", vec3(0.0f, 0.0f, 0.0f));
 	prog.setUniform("Material.Ka", vec3(0.2f, 0.2f , 0.2f));
 	prog.setUniform("Material.Shininess", 180.0f);
+	prog.use();
 
+
+	setMatrices();
+	sky.render(); 
 	model = mat4(1.0f);
-	glBindTexture(GL_TEXTURE_2D, Rerere);
+	model = glm::rotate(model, angle, vec3(0.0f, 0.3f, 0.0f));
+	glBindTexture(GL_TEXTURE_2D, ring);
 	setMatrices();
 	mesh->render();
 	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
@@ -116,14 +125,13 @@ void SceneBasic_Uniform::render()
 	glBindTexture(GL_TEXTURE_2D, Face);
 	setMatrices();
 	mesh2->render();
-
 	model = glm::translate(glm::mat4(1.0), glm::vec3(0.0f, -5.0f, 0.0f));
-	//model = glm::rotate(model, glm::radians(35.0f), vec3(9.0f * cos(angle), 1.0f, 10.0f));
 	model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
-	glBindTexture(GL_TEXTURE_2D, Hehehe);
+	glBindTexture(GL_TEXTURE_2D, ground);
 	setMatrices();
 
 	plane.render();
+	
 	
 	
 }
